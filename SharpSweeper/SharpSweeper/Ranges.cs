@@ -10,7 +10,6 @@ namespace SharpSweeper
         
         
         private static List<Coord> m_AllCoords;
-        private static Random random = new Random();
 
         internal static Coord Size
         {
@@ -33,12 +32,6 @@ namespace SharpSweeper
         {
             return coord.x >= 0 && coord.x < m_Size.x &&
                    coord.y >= 0 && coord.y < m_Size.y;
-        }
-
-        internal static Coord GetRandomCoord()
-        {
-            return new Coord(random.Next(m_Size.x),
-                random.Next(m_Size.y));
         }
 
         internal static List<Coord> GetCoordsAround(Coord coord)

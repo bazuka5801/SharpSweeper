@@ -1,4 +1,8 @@
-﻿using SharpSweeper.Enum;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SharpSweeper.CSharp;
+using SharpSweeper.Enum;
 using SharpSweeper.Struct;
 
 namespace SharpSweeper
@@ -20,27 +24,25 @@ namespace SharpSweeper
         internal void Start()
         {
             m_BombMap = new Matrix(Box.ZERO);
+            var availableCoords = Ranges.GetAllCoords().ToList();
             for (int j = 0; j < m_TotalBombs; j++)
-                PlaceBomb();
+                PlaceBomb(availableCoords);
         }
 
 
-        private void PlaceBomb()
+
+        private void PlaceBomb(List<Coord> availableCoords)
         {
-            while (true)
-            {
-                Coord coord = Ranges.GetRandomCoord();
-                if (Box.BOMB == m_BombMap[coord])
-                    continue;
-                m_BombMap[coord] = Box.BOMB;
-                IncNumberAroundBomb(coord);
-                break;
-            }
+            var coord = availableCoords.GetRandom();
+            availableCoords.Remove(coord);
+            
+            m_BombMap[coord] = Box.BOMB;
+            IncNumberAroundBomb(coord);
         }
 
         private void FixBombsCount()
         {
-            int maxBombs = Ranges.Size.x * Ranges.Size.y / 2;
+            int maxBombs = Ranges.Size.x * Ranges.Size.y - ((Ranges.Size.x + Ranges.Size.y)/2);
             if (m_TotalBombs > maxBombs)
                 m_TotalBombs = maxBombs;
         }

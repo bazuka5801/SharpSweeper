@@ -1,4 +1,5 @@
-﻿using SharpSweeper.Enum;
+﻿using System;
+using SharpSweeper.Enum;
 using SharpSweeper.Struct;
 
 namespace SharpSweeper
@@ -7,10 +8,22 @@ namespace SharpSweeper
     {
         private Bomb m_Bomb;
         private Flag m_Flag;
-        private GameState m_State;
+        private GameState _state;
+
+        private GameState m_State
+        {
+            get => _state;
+            set
+            {
+                _state = value;
+                OnGameStateChanged?.Invoke(value);
+            }
+        }
     
         public GameState MState => m_State;
-
+        public Action<Box> OnOpened;
+        public Action<GameState> OnGameStateChanged;
+        
         public Game (int cols, int rows, int bombs)
         {
             Ranges.Size = new Coord(cols, rows);
@@ -81,11 +94,12 @@ namespace SharpSweeper
                 case Box.CLOSED:
                     switch (m_Bomb[coord])
                     {
-                        case Box.ZERO: OpenBoxesAround(coord); return;
-                        case Box.BOMB: OpenBombs(coord); return;
-                        default      : m_Flag.SetOpenedToBox(coord); return;
-    
+                        case Box.ZERO: OpenBoxesAround(coord); break;
+                        case Box.BOMB: OpenBombs(coord); break;
+                        default      : m_Flag.SetOpenedToBox(coord); break;
                     }
+                    OnOpened?.Invoke(m_Bomb[coord]);
+                    break;
             }
         }
     
