@@ -46,6 +46,7 @@
     <Compile Include="SharpSweeper\Enum\GameState.cs" />
     <Compile Include="SharpSweeper\Flag.cs" />
     <Compile Include="SharpSweeper\Game.cs" />
+    <Compile Include="SharpSweeper\Interfaces\ISharpSweeperGame.cs" />
     <Compile Include="SharpSweeper\Matrix.cs" />
     <Compile Include="SharpSweeper\Ranges.cs" />
     <Compile Include="SharpSweeper\Struct\Coord.cs" />

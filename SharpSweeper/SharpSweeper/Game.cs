@@ -1,10 +1,11 @@
 ﻿using System;
 using SharpSweeper.Enum;
+using SharpSweeper.Interfaces;
 using SharpSweeper.Struct;
 
 namespace SharpSweeper
 {
-    public class Game
+    public class Game : ISharpSweeperGame
     {
         private Bomb m_Bomb;
         private Flag m_Flag;
@@ -20,9 +21,9 @@ namespace SharpSweeper
             }
         }
     
-        public GameState MState => m_State;
-        public Action<Box> OnOpened;
-        public Action<GameState> OnGameStateChanged;
+        public GameState State => m_State;
+        public Action<Box> OnOpened { get; set; }
+        public Action<GameState> OnGameStateChanged { get; set; }
         
         public Game (int cols, int rows, int bombs)
         {

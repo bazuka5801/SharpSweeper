@@ -10,5 +10,8 @@
             this.x = x;
             this.y = y;
         }
+
+        public static bool operator ==(Coord a, Coord b) => a.x == b.x && a.y == b.y;
+        public static bool operator !=(Coord a, Coord b) => !(a == b);
     }
 }
