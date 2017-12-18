@@ -24,19 +24,24 @@ namespace SharpSweeper
         public GameState State => m_State;
         public Action<Box> OnOpened { get; set; }
         public Action<GameState> OnGameStateChanged { get; set; }
-        
+        public Action OnRepaint { get; set; }
+
+        public bool RaiseCallbacks { get; set; } = true;
+
         public Game (int cols, int rows, int bombs)
         {
             Ranges.Size = new Coord(cols, rows);
             m_Bomb = new Bomb(bombs);
             m_Flag = new Flag();
         }
+        
     
         public void Start()
         {
             m_Bomb.Start();
             m_Flag.Start();
             m_State = GameState.PLAYED;
+            if (RaiseCallbacks)OnRepaint?.Invoke();
         }
     
         public Box GetBox(Coord coord)
@@ -57,6 +62,7 @@ namespace SharpSweeper
         {
             if (GameOver()) return;
             m_Flag.ToggleFlaggedBox(coord);
+            if (RaiseCallbacks)OnRepaint?.Invoke();
         }
     
         private void CheckWinner()
@@ -99,7 +105,11 @@ namespace SharpSweeper
                         case Box.BOMB: OpenBombs(coord); break;
                         default      : m_Flag.SetOpenedToBox(coord); break;
                     }
-                    OnOpened?.Invoke(m_Bomb[coord]);
+                    if (RaiseCallbacks)
+                    {
+                        OnOpened?.Invoke(m_Bomb[coord]);
+                        OnRepaint?.Invoke();
+                    }
                     break;
             }
         }

@@ -16,6 +16,7 @@
         CLOSED,
         FLAGED,
         BOMBED,
-        NOBOMB
+        NOBOMB,
+        ERROR
     }
 }

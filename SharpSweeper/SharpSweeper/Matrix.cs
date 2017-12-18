@@ -21,7 +21,8 @@ namespace SharpSweeper
             {
                 if (Ranges.InRange(coord))
                     return m_Matrix [coord.x, coord.y];
-                throw new IndexOutOfRangeException("Matrix[] out of range!");
+//                throw new IndexOutOfRangeException("Matrix[] out of range!");
+                return Box.ERROR;
             }
             set
             {

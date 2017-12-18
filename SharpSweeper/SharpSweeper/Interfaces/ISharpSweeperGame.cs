@@ -11,7 +11,10 @@ namespace SharpSweeper.Interfaces
         void PressRightButton(Coord coord);
 
         GameState State { get; }
+        bool RaiseCallbacks { get; set; }
+        
         Action<Box> OnOpened { get; set; }
         Action<GameState> OnGameStateChanged { get; set; }
+        Action OnRepaint { get; set; }
     }
 }
